@@ -1,49 +1,42 @@
-﻿using PokemonReviewApp.Interfaces;
+﻿using AutoMapper;
+using PokemonReviewApp.Data;
+using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
 
 namespace PokemonReviewApp.Repository
 {
     public class CountryRepository : ICountryRepository
+
     {
-        public bool CountryExists(int countryId)
+        private readonly DataContext _context;
+
+        public CountryRepository(DataContext context )
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public bool CountryExists(int id)
+        {
+            return _context.Countries.Any(c => c.Id == id);
         }
 
         public ICollection<Country> GetCountries()
         {
-            throw new NotImplementedException();
+            return _context.Countries.ToList();
         }
 
         public Country GetCountry(int id)
         {
-            throw new NotImplementedException();
+            return _context.Countries.Where(c => c.Id == id).FirstOrDefault();
         }
 
-        public ICollection<Pokemon> GetPokemonByCountry(int countryId)
+        public Country GetCountryOfAnOwner(int ownerId)
         {
-            throw new NotImplementedException();
-        }
-    }
-
-    public bool CountryExists(int countryId)
-        {
-            throw new NotImplementedException();
+            return _context.Owners.Where(o => o.Id == ownerId).Select(c => c.Country).FirstOrDefault();
         }
 
-        public ICollection<Country> GetCountries()
+        public ICollection<Owner> GetOwnerFromACountry(int countryId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Country GetCountry(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<Pokemon> GetPokemonByCountry(int countryId)
-        {
-            throw new NotImplementedException();
+            return _context.Owners.Where(c => c.Country.Id == countryId).ToList();
         }
     }
 }

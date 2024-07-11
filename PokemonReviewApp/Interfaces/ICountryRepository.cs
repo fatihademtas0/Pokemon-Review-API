@@ -6,7 +6,8 @@ namespace PokemonReviewApp.Interfaces
     {
         ICollection<Country> GetCountries();
         Country GetCountry(int id);
-        ICollection<Pokemon> GetPokemonByCountry(int countryId);
+        Country GetCountryOfAnOwner(int ownerId);
+        ICollection<Owner> GetOwnerFromACountry(int countryId);
         bool CountryExists(int countryId);
 
     }
