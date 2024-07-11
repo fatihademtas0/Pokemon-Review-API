@@ -59,13 +59,13 @@ namespace PokemonReviewApp.Controllers
             if (!_ownerRepository.OwnerExists(ownerId))
                 return NotFound();
 
-            var owner = _mapper.Map<List<OwnerDto>>(
+            var owners = _mapper.Map<List<PokemonDto>>(
                 _ownerRepository.GetPokemonByOwner(ownerId));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(owner);
+            return Ok(owners);
         }
         /* it is not necessary
         [HttpGet("pokemon/{pokemonId}/owners")]

@@ -56,7 +56,7 @@ namespace PokemonReviewApp.Controllers
 
         public IActionResult GetReviewsOfAPokemon(int pokeId)
         {
-            if (!_Repository.OwnerExists(ownerId))
+            if (!_reviewRepository.ReviewExists(pokeId))
                 return NotFound();
 
             var reviews = _mapper.Map<List<ReviewDto>>(
