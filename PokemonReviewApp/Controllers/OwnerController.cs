@@ -9,14 +9,18 @@ namespace PokemonReviewApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OwnerController :Controller
+    public class OwnerController : Controller
     {
         private readonly IOwnerRepository _ownerRepository;
+        private readonly ICountryRepository _countryRepository;
         private readonly IMapper _mapper;
 
-        public OwnerController(IOwnerRepository ownerRepository , IMapper mapper)
+        public OwnerController(IOwnerRepository ownerRepository,
+            ICountryRepository countryRepository,
+            IMapper mapper)
         {
             _ownerRepository = ownerRepository;
+            _countryRepository = countryRepository;
             _mapper = mapper;
         }
 
@@ -67,21 +71,48 @@ namespace PokemonReviewApp.Controllers
 
             return Ok(owners);
         }
-        /* it is not necessary
-        [HttpGet("pokemon/{pokemonId}/owners")]
+
+        [HttpPost]
+        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        [ProducesResponseType(200, Type = typeof(Owner))]
-
-        public IActionResult GetOwnerOfAPokemon(int pokeId)
+        public IActionResult CreateOwner([FromQuery] int countryId, [FromBody] OwnerDto ownerCreate)
         {
-            var owner = _mapper.Map<OwnerDto>(
-                _ownerRepository.GetOwnerOfAPokemon(pokeId));
-
-            if (!ModelState.IsValid)
+            if (ownerCreate == null)
                 return BadRequest(ModelState);
 
-            return Ok(owner);
+            var owner = _ownerRepository.GetOwners()
+                .FirstOrDefault(o =>
+                o.FirstName.Trim().ToUpper() == ownerCreate.FirstName.TrimEnd().ToUpper() &&
+                o.LastName.Trim().ToUpper() == ownerCreate.LastName.TrimEnd().ToUpper() &&
+                o.Gym.Trim().ToUpper() == ownerCreate.Gym.TrimEnd().ToUpper());
+
+            /*
+                var owner = _ownerRepository.GetOwners().Where(
+                    o => o.LastName.Trim().ToUpper() == ownerCreate.LastName.TrimEnd().ToUpper()).FirstOrDefault();
+            */
+            if (owner != null)
+            {
+                ModelState.AddModelError("", "Owner already exists!");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ownerMap = _mapper.Map<Owner>(ownerCreate);
+
+            ownerMap.Country = _countryRepository.GetCountry(countryId);
+
+            if (!_ownerRepository.CreateOwner(ownerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Succesfully created!");
         }
-        */
+
     }
 }

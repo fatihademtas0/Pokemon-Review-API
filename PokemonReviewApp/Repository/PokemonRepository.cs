@@ -8,7 +8,7 @@ namespace PokemonReviewApp.Repository
     public class PokemonRepository : IPokemonRepository
     {
         private readonly DataContext _context;
-        public PokemonRepository(DataContext context) 
+        public PokemonRepository(DataContext context)
         {
             _context = context;
         }
@@ -30,18 +30,18 @@ namespace PokemonReviewApp.Repository
             if (review.Count() <= 0)
                 return 0;
             return ((decimal)review.Sum(r => r.Rating) / review.Count());
-        } 
+        }
 
         public bool PokemonExists(int pokeId)
         {
-            return _context.Pokemon.Any(p => p.Id == pokeId);   
+            return _context.Pokemon.Any(p => p.Id == pokeId);
         }
 
-        public ICollection<Pokemon> GetPokemons() 
+        public ICollection<Pokemon> GetPokemons()
         {
             return _context.Pokemon.OrderBy(p => p.Id).ToList();
         }
 
-       
+
     }
 }

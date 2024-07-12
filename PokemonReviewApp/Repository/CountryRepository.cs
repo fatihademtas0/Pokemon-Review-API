@@ -10,7 +10,7 @@ namespace PokemonReviewApp.Repository
     {
         private readonly DataContext _context;
 
-        public CountryRepository(DataContext context )
+        public CountryRepository(DataContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace PokemonReviewApp.Repository
 
         public bool CreateCountry(Country country)
         {
-            _context.Countries.Add(country);
+            _context.Add(country);
             return Save();
         }
 

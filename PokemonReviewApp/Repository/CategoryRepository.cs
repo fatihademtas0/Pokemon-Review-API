@@ -7,10 +7,10 @@ namespace PokemonReviewApp.Repository
     public class CategoryRepository : ICategoryRepository
     {
         private readonly DataContext _context;
-        
-        public CategoryRepository(DataContext context) 
+
+        public CategoryRepository(DataContext context)
         {
-            _context = context; 
+            _context = context;
         }
         public bool CategoryExists(int id)
         {

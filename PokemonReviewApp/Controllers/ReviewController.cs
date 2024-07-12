@@ -14,7 +14,7 @@ namespace PokemonReviewApp.Controllers
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
-        public ReviewController(IReviewRepository reviewRepository , IMapper mapper)
+        public ReviewController(IReviewRepository reviewRepository, IMapper mapper)
         {
             _reviewRepository = reviewRepository;
             _mapper = mapper;
@@ -49,7 +49,7 @@ namespace PokemonReviewApp.Controllers
 
             return Ok(review);
         }
-        
+
         [HttpGet("pokemon/{pokeId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200, Type = typeof(Review))]
@@ -67,6 +67,6 @@ namespace PokemonReviewApp.Controllers
 
             return Ok(reviews);
         }
-        
+
     }
 }

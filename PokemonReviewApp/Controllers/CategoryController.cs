@@ -13,7 +13,7 @@ namespace PokemonReviewApp.Controllers
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
-        public CategoryController(ICategoryRepository categoryRepository , IMapper mapper) 
+        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
             _mapper = mapper;
@@ -44,7 +44,7 @@ namespace PokemonReviewApp.Controllers
             var category = _mapper.Map<CategoryDto>(_categoryRepository.GetCategory(categoryId));
 
             if (!ModelState.IsValid)
-                return BadRequest(ModelState); 
+                return BadRequest(ModelState);
 
             return Ok(category);
         }
@@ -78,7 +78,7 @@ namespace PokemonReviewApp.Controllers
             if (category != null)
             {
                 ModelState.AddModelError("", "Category already exists!");
-                return StatusCode(422 , ModelState);
+                return StatusCode(422, ModelState);
             }
 
             if (!ModelState.IsValid)
@@ -91,7 +91,7 @@ namespace PokemonReviewApp.Controllers
             if (!_categoryRepository.CreateCategory(categoryMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving!");
-                return StatusCode(500 , ModelState);
+                return StatusCode(500, ModelState);
             }
 
             return Ok("Succesfully created!");

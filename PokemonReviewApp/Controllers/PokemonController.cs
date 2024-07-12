@@ -14,14 +14,14 @@ namespace PokemonReviewApp.Controllers
         private readonly IPokemonRepository _pokemonRepository;
         private readonly IMapper _mapper;
 
-        public PokemonController(IPokemonRepository pokemonRepository , IMapper mapper)
+        public PokemonController(IPokemonRepository pokemonRepository, IMapper mapper)
         {
             _pokemonRepository = pokemonRepository;
-            _mapper = mapper;   
+            _mapper = mapper;
         }
 
         [HttpGet]
-        [ProducesResponseType(200 , Type = typeof(IEnumerable<Pokemon>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
 
         public IActionResult GetPokemons()
         {
@@ -38,9 +38,9 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(200, Type = typeof(Pokemon))]
         [ProducesResponseType(400)]
 
-        public IActionResult GetPokemon(int pokeId) 
+        public IActionResult GetPokemon(int pokeId)
         {
-            if(!_pokemonRepository.PokemonExists(pokeId))
+            if (!_pokemonRepository.PokemonExists(pokeId))
                 return NotFound();
 
             var pokemon = _mapper.Map<PokemonDto>(_pokemonRepository.GetPokemon(pokeId));
