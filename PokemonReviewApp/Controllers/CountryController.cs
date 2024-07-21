@@ -102,8 +102,8 @@ namespace PokemonReviewApp.Controllers
         [HttpPut("{countryId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
-        [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
 
         public IActionResult UpdateCountry(int countryId, [FromBody] CountryDto updatedCountry)
         {
@@ -128,6 +128,37 @@ namespace PokemonReviewApp.Controllers
             }
 
             return Ok("Successfully updated!");
+        }
+
+        [HttpDelete("{countryId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+
+        public IActionResult DeleteCountry(int countryId)
+        {
+            if (!_countryRepository.CountryExists(countryId))
+                return NotFound();
+
+            if (_countryRepository.GetOwnerFromACountry(countryId).Any())
+            {
+                ModelState.AddModelError("", "Cannot delete country with associated owners.");
+                return BadRequest(ModelState);
+            }
+
+            var countryToDelete = _countryRepository.GetCountry(countryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+                
+            if (!_countryRepository.DeleteCountry(countryToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong while deleting country!");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully deleted!");
         }
     }
 }

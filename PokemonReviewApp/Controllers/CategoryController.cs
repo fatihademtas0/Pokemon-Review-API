@@ -102,6 +102,7 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
 
         public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updatedCategory)
         {
@@ -132,6 +133,7 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
 
         public IActionResult DeleteCategory(int categoryId) 
         {
@@ -148,12 +150,12 @@ namespace PokemonReviewApp.Controllers
             }
 
             if(!ModelState.IsValid)
-
                 return BadRequest(ModelState);
 
             if (!_categoryRepository.DeleteCategory(categoryToDelete))
             {
                 ModelState.AddModelError("", "Something went wrong while deleting category!");
+                return StatusCode(500, ModelState);
             }
 
             return Ok("Successfully deleted!");
