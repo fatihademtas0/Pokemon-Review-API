@@ -136,11 +136,11 @@ namespace PokemonReviewApp.Controllers
 
             if (!_reviewRepository.UpdateReview(reviewMap))
             {
-                ModelState.AddModelError("", "Something went wrong while updating!");
+                ModelState.AddModelError("", "Something went wrong while updating !");
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Successfully updated!");
+            return Ok("Successfully updated !");
         }
     }
 }
