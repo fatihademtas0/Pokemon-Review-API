@@ -99,11 +99,12 @@ namespace PokemonReviewApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesfully created!");
+            return Ok("Successfully created!");
         }
 
         [HttpPut("{reviewerId}")]
         [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public IActionResult UpdateReviewer(int reviewerId, [FromBody] ReviewerDto updatedReviewer)
@@ -128,7 +129,7 @@ namespace PokemonReviewApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return NoContent();
+            return Ok("Successfully updated !");
         }
     }
 }

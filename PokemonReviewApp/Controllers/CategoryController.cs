@@ -94,17 +94,18 @@ namespace PokemonReviewApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesfully created!");
+            return Ok("Successsfully created!");
         }
 
         [HttpPut("{categoryId}")]
         [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
 
-        public IActionResult UpdateCategory(int categoryId , [FromBody] CategoryDto updatedCategory)
+        public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updatedCategory)
         {
-            if (updatedCategory == null) 
+            if (updatedCategory == null)
                 return BadRequest(ModelState);
 
             if (categoryId != updatedCategory.Id)
@@ -121,7 +122,7 @@ namespace PokemonReviewApp.Controllers
             if (!_categoryRepository.UpdateCategory(categoryMap))
             {
                 ModelState.AddModelError("", "Something went wrong while updating!");
-                return StatusCode(500 , ModelState);
+                return StatusCode(500, ModelState);
             }
 
             return Ok("Successfully updated!");

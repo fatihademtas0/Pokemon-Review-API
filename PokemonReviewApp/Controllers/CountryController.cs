@@ -96,11 +96,12 @@ namespace PokemonReviewApp.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok("Succesfully created!");
+            return Ok("Successsfully created!");
         }
 
         [HttpPut("{countryId}")]
         [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
 

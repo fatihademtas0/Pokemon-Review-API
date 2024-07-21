@@ -114,6 +114,7 @@ namespace PokemonReviewApp.Controllers
 
         [HttpPut("{reviewId}")]
         [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
 
